@@ -9,393 +9,15 @@ import {
   Navigate,
 } from "react-router-dom";
 import axios from "axios";
-// import jwt from 'jsonwebtoken';
+
 import { getRoleFromToken } from "./utils/auth";
 import { useProducts } from "./context/ProductContext";
 import LoginView from "./components/Auth";
-// const defaultTechProducts = [
-//   {
-//     id: 1,
-//     title: "Sapphire Pro Wireless Earbuds",
-//     price: 49.99,
-//     category: "Wireless Earbuds",
-//     description: "Active noise cancellation with 40h battery life.",
-//     image:
-//       "https://images.unsplash.com/photo-1578319439584-104c94d37305?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fFBybyUyMFdpcmVsZXNzJTIwRWFyYnVkc3xlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 2,
-//     title: "Studio Elite Headphones",
-//     price: 89.99,
-//     category: "Headphones",
-//     description: "Over-ear studio sound with high-res audio.",
-//     image:
-//       "https://plus.unsplash.com/premium_photo-1679513691474-73102089c117?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8SGVhZHBob25lc3xlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 3,
-//     title: "RGB Mechanical Keyboard",
-//     price: 65.0,
-//     category: "Mechanical Keyboards",
-//     description: "Hot-swappable switches with customizable RGB lighting.",
-//     image:
-//       "https://images.unsplash.com/photo-1674036373727-50eb89eed019?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fFJHQiUyME1lY2hhbmljYWwlMjBLZXlib2FyZHxlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 4,
-//     title: "Ergonomic Wireless Mouse",
-//     price: 34.99,
-//     category: "Wireless Mouse",
-//     description: "Precision optical sensor with ultra-quiet clicks.",
-//     image:
-//       "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 5,
-//     title: "Aluminum Laptop Stand",
-//     price: 29.99,
-//     category: "Laptop Stands",
-//     description: "Adjustable ergonomic stand for better cooling and posture.",
-//     image:
-//       "https://images.unsplash.com/photo-1623251609314-97cc1f84e3ed?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 6,
-//     title: "7-in-1 USB-C Hub",
-//     price: 42.5,
-//     category: "USB-C Hubs",
-//     description: "4K HDMI, Power Delivery, USB 3.0 ports, and card readers.",
-//     image:
-//       "https://images.unsplash.com/photo-1760376789487-994070337c76?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 7,
-//     title: "1080p HD Webcam",
-//     price: 39.99,
-//     category: "Webcams",
-//     description: "Crystal clear video calling with built-in microphone.",
-//     image:
-//       "https://images.unsplash.com/photo-1750975314977-374f2290db53?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 8,
-//     title: "20,000mAh Power Bank",
-//     price: 45.0,
-//     category: "Power Banks",
-//     description: "Fast charging dual USB-C ports for all your devices.",
-//     image:
-//       "https://images.unsplash.com/photo-1577538926210-fc6cc624fde2?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 9,
-//     title: "67W Fast Phone Charger",
-//     price: 22.0,
-//     category: "Phone Chargers",
-//     description: "GaN technology compact charger for phones and laptops.",
-//     image:
-//       "https://images.unsplash.com/photo-1731616103600-3fe7ccdc5a59?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8NjVXJTIwRmFzdCUyMFBob25lJTIwQ2hhcmdlcnxlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 10,
-//     title: "Sapphire Smart Watch Pro",
-//     price: 79.99,
-//     category: "Smart Watches",
-//     description: "Fitness tracking, heart rate monitor, and AMOLED display.",
-//     image:
-//       "https://images.unsplash.com/photo-1655215920713-94440bf7213f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8U21hcnQlMjBXYXRjaCUyMFByb3xlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 11,
-//     title: "LED Minimalist Desk Lamp",
-//     price: 35.0,
-//     category: "Desk Lamps",
-//     description: "Touch control brightness and color temperature adjustment.",
-//     image:
-//       "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 12,
-//     title: "Waterproof Laptop Sleeve",
-//     price: 25.0,
-//     category: "Laptop Sleeves/Bags",
-//     description: "Shockproof padded protection for up to 15.6-inch laptops.",
-//     image:
-//       "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 13,
-//     title: "Bluetooth Portable Speaker",
-//     price: 38.0,
-//     category: "Bluetooth Speakers",
-//     description: "Rich 360-degree sound with 12h playback, splash resistant.",
-//     image:
-//       "https://images.unsplash.com/photo-1589003077984-894e133dabab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Qmx1ZXRvb3RoJTIwUG9ydGFibGUlMjBTcGVha2VyfGVufDB8fDB8fHww",
-//   },
-//   {
-//     id: 14,
-//     title: "Gaming Mouse Pad XL",
-//     price: 18.0,
-//     category: "Mouse Pads",
-//     description: "Extended stitched-edge surface for smooth precise tracking.",
-//     image:
-//       "https://images.unsplash.com/photo-1629429408209-1f912961dbd8?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 15,
-//     title: "15W Wireless Charging Pad",
-//     price: 24.99,
-//     category: "Wireless Chargers",
-//     description: "Fast Qi charging for phones, earbuds, and watches.",
-//     image:
-//       "https://images.unsplash.com/photo-1600490722773-35753aea6332?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 16,
-//     title: "4K HDMI Cable 2m",
-//     price: 12.0,
-//     category: "Cables",
-//     description: "High-speed braided cable with 4K@60Hz support.",
-//     image:
-//       "https://images.unsplash.com/photo-1604005366359-2f8f2a044336?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 17,
-//     title: "USB-C SD Card Reader",
-//     price: 16.5,
-//     category: "Card Readers",
-//     description: "Fast multi-slot reader for SD, microSD, and CF cards.",
-//     image:
-//       "https://plus.unsplash.com/premium_photo-1760531797911-f7b07b9572f1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8VVNCLUMlMjBTRCUyMENhcmQlMjBSZWFkZXJ8ZW58MHx8MHx8fDA%3D",
-//   },
-//   {
-//     id: 18,
-//     title: "Laptop Cooling Pad",
-//     price: 27.0,
-//     category: "Cooling Pads",
-//     description: "Dual quiet fans with adjustable height for better airflow.",
-//     image:
-//       "https://media.istockphoto.com/id/2158717888/photo/external-laptop-cooler-isolated-on-white-background-side-view-with-copy-space.webp?a=1&b=1&s=612x612&w=0&k=20&c=cy8JcDGQkQ9hJosut_Payu04tcF94E-VOGHMXssj4vo=",
-//   },
-//   {
-//     id: 19,
-//     title: "VR Headset Pro",
-//     price: 199.0,
-//     category: "VR Headsets",
-//     description: "Immersive wide field-of-view display with adjustable straps.",
-//     image:
-//       "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 20,
-//     title: "Mini Foldable Drone",
-//     price: 89.0,
-//     category: "Drones",
-//     description: "HD camera drone with foldable arms and one-key return.",
-//     image:
-//       "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 21,
-//     title: "Ergonomic Gaming Chair",
-//     price: 179.0,
-//     category: "Gaming Chairs",
-//     description: "Adjustable lumbar support with reclining backrest.",
-//     image:
-//       "https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 22,
-//     title: "USB Condenser Microphone",
-//     price: 55.0,
-//     category: "Microphones",
-//     description: "Studio-quality podcast mic with cardioid pickup pattern.",
-//     image:
-//       "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 23,
-//     title: "LED Ring Light 10-inch",
-//     price: 32.0,
-//     category: "Ring Lights",
-//     description: "Adjustable brightness ring light with flexible phone mount.",
-//     image:
-//       "https://plus.unsplash.com/premium_photo-1684611913202-479ff05703da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8TEVEJTIwUmluZyUyMExpZ2h0JTIwMTAtaW5jaHxlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 24,
-//     title: "Flexible Phone Tripod",
-//     price: 15.0,
-//     category: "Tripods",
-//     description: "Bendable legs grip any surface for stable shots.",
-//     image:
-//       "https://media.istockphoto.com/id/1311068598/photo/a-small-desktop-tripod-that-holds-a-smartphone.webp?a=1&b=1&s=612x612&w=0&k=20&c=sjkROJm3MoPHvIEznFPPMtOhn34OW0NbDe3LVomwTag=",
-//   },
-//   {
-//     id: 25,
-//     title: "128GB USB Flash Drive",
-//     price: 14.0,
-//     category: "Flash Drives",
-//     description: "High-speed USB 3.1 storage with metal casing.",
-//     image:
-//       "https://images.unsplash.com/photo-1551818014-7c8ace9c1b5c?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 26,
-//     title: "1TB Portable External SSD",
-//     price: 95.0,
-//     category: "External SSDs",
-//     description: "Ultra-fast transfer speeds in a pocket-sized drive.",
-//     image:
-//       "https://images.unsplash.com/photo-1721333084639-0f64b0583875?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8MVRCJTIwUG9ydGFibGUlMjBFeHRlcm5hbCUyMFNTRHxlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 27,
-//     title: "Dual-Band WiFi Router",
-//     price: 58.0,
-//     category: "WiFi Routers",
-//     description: "Whole-home coverage with dual-band gigabit speeds.",
-//     image:
-//       "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 28,
-//     title: "Smart WiFi Plug",
-//     price: 13.5,
-//     category: "Smart Plugs",
-//     description: "App and voice controlled outlet with energy monitoring.",
-//     image:
-//       "https://plus.unsplash.com/premium_photo-1729491126297-be4bc55e0197?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fFNtYXJ0JTIwV2lGaSUyMFBsdWd8ZW58MHx8MHx8fDA%3D",
-//   },
-//   {
-//     id: 29,
-//     title: "Digital Graphics Drawing Tablet",
-//     price: 68.0,
-//     category: "Graphics Tablets",
-//     description: "Pressure-sensitive pen tablet for digital art and design.",
-//     image:
-//       "https://images.unsplash.com/photo-1621009063622-4467e453c3c1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fERpZ2l0YWwlMjBHcmFwaGljcyUyMERyYXdpbmclMjBUYWJsZXR8ZW58MHx8MHx8fDA%3D",
-//   },
-//   {
-//     id: 30,
-//     title: "Shockproof Phone Case",
-//     price: 17.0,
-//     category: "Phone Cases",
-//     description: "Military-grade drop protection with raised bezel edges.",
-//     image:
-//       "https://images.unsplash.com/photo-1601593346740-925612772716?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 31,
-//     title: "Magnetic Car Phone Mount",
-//     price: 19.99,
-//     category: "Car Mounts",
-//     description:
-//       "Strong magnetic dashboard mount for secure hands-free driving.",
-//     image:
-//       "https://images.unsplash.com/photo-1708766896345-fe51d8845ae3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8TWFnbmV0aWMlMjBDYXIlMjBQaG9uZSUyME1vdW50JTVDfGVufDB8fDB8fHww",
-//   },
-//   {
-//     id: 32,
-//     title: "Bluetooth 5.3 USB Adapter",
-//     price: 11.0,
-//     category: "Bluetooth Adapters",
-//     description: "Compact dongle adds Bluetooth to any desktop PC.",
-//     image:
-//       "https://media.istockphoto.com/id/479141898/photo/usb-network-adapter.webp?a=1&b=1&s=612x612&w=0&k=20&c=XSMzeArIouVahFsEeUn1SVYmoam08XijolYwFUqpni0=",
-//   },
-//   {
-//     id: 33,
-//     title: "Wireless Gaming Controller",
-//     price: 44.0,
-//     category: "Gaming Controllers",
-//     description:
-//       "Ergonomic grip with responsive triggers and low-latency link.",
-//     image:
-//       "https://images.unsplash.com/flagged/photo-1580234820596-0876d136e6d5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8V2lyZWxlc3MlMjBHYW1pbmclMjBDb250cm9sbGVyfGVufDB8fDB8fHww",
-//   },
-//   {
-//     id: 34,
-//     title: "Adjustable Monitor Stand",
-//     price: 33.0,
-//     category: "Monitor Stands",
-//     description: "Riser stand with under-storage for a tidy desk setup.",
-//     image:
-//       "https://images.unsplash.com/photo-1629317480826-910f729d1709?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 35,
-//     title: "Desk Cable Organizer Box",
-//     price: 16.0,
-//     category: "Cable Organizers",
-//     description: "Hides power strips and cables for a clean workspace.",
-//     image:
-//       "https://images.unsplash.com/photo-1639675960002-2f414c58ed79?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 36,
-//     title: '15.6" Portable Monitor',
-//     price: 129.0,
-//     category: "Portable Monitors",
-//     description: "Slim USB-C display for laptops, consoles, and phones.",
-//     image:
-//       "https://plus.unsplash.com/premium_photo-1681718166365-9ae0a5d208a7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8MTUuNiUyMiUyMFBvcnRhYmxlJTIwTW9uaXRvcnxlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 37,
-//     title: "Active Noise Cancelling Earbuds",
-//     price: 59.99,
-//     category: "Wireless Earbuds",
-//     description: "Deep bass with adaptive ANC and touch controls.",
-//     image:
-//       "https://images.unsplash.com/photo-1611864583067-b002fdc4fa29?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fEFjdGl2ZSUyME5vaXNlJTIwQ2FuY2VsbGluZyUyMEVhcmJ1ZHN8ZW58MHx8MHx8fDA%3D",
-//   },
-//   {
-//     id: 38,
-//     title: "Smart LED Light Bulb",
-//     price: 14.99,
-//     category: "Smart Lighting",
-//     description:
-//       "App-controlled color-changing bulb with voice assistant support.",
-//     image:
-//       "https://images.unsplash.com/photo-1532007271951-c487760934ae?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8U21hcnQlMjBMRUQlMjBMaWdodCUyMEJ1bGJ8ZW58MHx8MHx8fDA%3D",
-//   },
-//   {
-//     id: 39,
-//     title: "Anti-Theft Laptop Backpack",
-//     price: 46.0,
-//     category: "Laptop Sleeves/Bags",
-//     description: "Hidden zippers and USB charging port for daily commutes.",
-//     image:
-//       "https://images.unsplash.com/photo-1668114844900-537ab91478b9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8QW50aS1UaGVmdCUyMExhcHRvcCUyMEJhY2twYWNrfGVufDB8fDB8fHww",
-//   },
-//   {
-//     id: 40,
-//     title: "Tempered Glass Screen Protector",
-//     price: 9.99,
-//     category: "Screen Protectors",
-//     description: "9H hardness glass with oleophobic anti-fingerprint coating.",
-//     image:
-//       "https://images.unsplash.com/photo-1694878981905-b742a32f8121?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8VGVtcGVyZWQlMjBHbGFzcyUyMFNjcmVlbiUyMFByb3RlY3RvcnxlbnwwfHwwfHx8MA%3D%3D",
-//   },
-//   {
-//     id: 41,
-//     title: "Cat6 Ethernet Cable 5m",
-//     price: 10.5,
-//     category: "Cables",
-//     description: "Snagless connectors with gigabit-speed shielded cable.",
-//     image:
-//       "https://images.unsplash.com/photo-1604005366359-2f8f2a044336?w=500&auto=format&fit=crop&q=60",
-//   },
-//   {
-//     id: 42,
-//     title: "Mini Portable Projector",
-//     price: 84.0,
-//     category: "Projectors",
-//     description: "Compact 1080p-supported projector for movies on the go.",
-//     image:
-//       "https://images.unsplash.com/photo-1637656375538-9dfe600ccfd2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8TWluaSUyMFBvcnRhYmxlJTIwUHJvamVjdG9yfGVufDB8fDB8fHww",
-//   },
-// ];
+import Navbar from "./components/Navbar";
+
+
+
+
 
 
 function StoreFront() {
@@ -906,146 +528,8 @@ function ProductsView() {
   );
 }
 
-// function CategoriesView() {
-//   const { products, loading } = useProducts();
-
-//   if (loading) return (
-//     <div className="min-h-full flex items-center justify-center text-center text-[#cc0000] font-bold">
-//       Loading categories...
-//     </div>
-//   );
-//   const categoriesList = [
-//     ...new Set(products.map((p) => p.category)),
-//   ];
-
-//   return (
-//     <div className="max-w-7xl mx-auto px-6 py-16">
-//       <div className="mb-10">
-//         <span className="text-[#cc0000] text-xs font-black uppercase tracking-widest">
-//           Browse
-//         </span>
-//         <h2 className="text-3xl font-black text-slate-900 tracking-tight mt-1">
-//           Categories
-//         </h2>
-//       </div>
-//       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-//         {categoriesList.map((cat, idx) => (
-//           <div
-//             key={idx}
-//             className="bg-red-50 border border-red-100 p-6 rounded-3xl text-center hover:bg-[#cc0000] hover:text-white transition cursor-default text-slate-900 font-bold"
-//           >
-//             <h3 className="text-sm">{cat}</h3>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
 
 
-
-// function CategoriesView() {
-//   const { products, loading } = useProducts();
-//   const [displayProducts, setDisplayProducts] = useState([]);
-
-//   if (loading) return (
-//     <div className="min-h-full flex items-center justify-center text-center text-[#cc0000] font-bold">
-//       Loading categories...
-//     </div>
-//   );
-
-//   const categoriesList = [
-//     ...new Set(products.map((p) => p.category)),
-//   ];
-
-//   const handleCategoryClick = (category) => {
-//     const displayProducts = products.filter(
-//       (product) => product.category === category
-//     );
-
-//     setDisplayProducts(displayProducts);
-//   };
-
-//   return (
-//     <div className="max-w-7xl mx-auto px-6 py-16">
-//       <div className="mb-10">
-//         <span className="text-[#cc0000] text-xs font-black uppercase tracking-widest">
-//           Browse
-//         </span>
-
-//         <h2 className="text-3xl font-black text-slate-900 tracking-tight mt-1">
-//           Categories
-//         </h2>
-//       </div>
-
-//       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-//         {categoriesList.map((cat, idx) => (
-//           <div
-//             key={idx}
-//             onClick={() => handleCategoryClick(cat)}
-//             className="bg-red-50 border border-red-100 p-6 rounded-3xl text-center hover:bg-[#cc0000] hover:text-white transition cursor-pointer text-slate-900 font-bold"
-//           >
-//             <h3 className="text-sm">{cat}</h3>
-//           </div>
-//         ))}
-//       </div>
-//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-//         {loading ? (
-//           <div className="col-span-full text-center text-[#cc0000] font-bold">
-//             Loading products...
-//           </div>
-//         ) : (
-//           displayProducts.map((p) => {
-//             const productId = p.id || p._id;
-//             return (
-//               <div
-//                 key={productId || p.title}
-//                 className="bg-white border border-slate-200 rounded-3xl p-4 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between"
-//               >
-//                 <Link to={`/product/${productId || p.title}`}>
-//                   <img
-//                     src={p.image}
-//                     alt={p.title}
-//                     className="h-40 w-full object-cover rounded-2xl mb-4 bg-slate-100"
-//                   />
-//                   <span className="text-[10px] font-black uppercase bg-red-50 text-[#cc0000] px-2 py-0.5 rounded">
-//                     {p.category}
-//                   </span>
-//                   <h3 className="font-black text-slate-900 mt-2">{p.title}</h3>
-//                   <p className="text-xs text-slate-600 mt-1 font-medium">
-//                     {p.description}
-//                   </p>
-//                 </Link>
-//                 <div className="mt-4 flex justify-between items-center">
-//                   <span className="font-black text-slate-900">${p.price}</span>
-//                   <Link
-//                     to={`/product/${productId || p.title}`}
-//                     className="bg-[#cc0000] hover:bg-[#990000] text-white text-xs font-bold px-4 py-2.5 rounded-full transition shadow"
-//                   >
-//                     View Details
-//                   </Link>
-//                 </div>
-//               </div>
-//             );
-//           })
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-// ```
-
-// // Ab kisi category par click karne par:
-
-// // ```js
-// const displayProducts
-// ```
-
-// mein **sirf us category ke saare products** aa jayenge.
-
-// import { useRef, useState } from "react";
-// import { Link } from "react-router-dom";
-// import { useProducts } from "../hooks/useProducts"; // apna sahi path lagao
 
 function CategoriesView() {
   const { products, loading } = useProducts();
@@ -1060,11 +544,10 @@ function CategoriesView() {
   const onPointerDown = (e) => {
     // touch ka scroll browser khud karta hai, yahan sirf mouse drag
     if (e.pointerType !== "mouse") return;
-    const el = trackRef.current;
     drag.current = {
       active: true,
       startX: e.clientX,
-      startScroll: el.scrollLeft,
+      startScroll: trackRef.current.scrollLeft,
       moved: false,
     };
     // NOTE: yahan setPointerCapture nahi lagana, warna click button tak
@@ -1105,18 +588,12 @@ function CategoriesView() {
  
   if (loading)
     return (
-      <div className="min-h-full flex items-center justify-center text-center text-[#cc0000] font-bold">
+      <div className="min-h-[50vh] flex items-center justify-center text-center text-[#cc0000] font-bold px-4">
         Loading categories...
       </div>
     );
  
-  // har category ki pehli product image circle me dikhayenge
-  const categoriesList = [...new Set(products.map((p) => p.category))].map(
-    (name) => ({
-      name,
-      image: products.find((p) => p.category === name)?.image,
-    })
-  );
+  const categoriesList = [...new Set(products.map((p) => p.category))];
  
   const handleCategoryClick = (category) => {
     // drag ke baad galti se click na ho
@@ -1129,17 +606,22 @@ function CategoriesView() {
   };
  
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16">
-      <div className="mb-8">
+    <div className="w-full min-w-0 max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 overflow-x-clip">
+      {/* scrollbar hide (Tailwind version se independent) */}
+      <style>{`
+        .category-track { scrollbar-width: none; -ms-overflow-style: none; }
+        .category-track::-webkit-scrollbar { display: none; width: 0; height: 0; }
+      `}</style>
+      <div className="mb-6 sm:mb-8">
         <span className="text-[#cc0000] text-xs font-black uppercase tracking-widest">
           Browse
         </span>
-        <h2 className="text-3xl font-black text-slate-900 tracking-tight mt-1">
+        <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
           Categories
         </h2>
       </div>
  
-      {/* Circle carousel */}
+      {/* Category carousel (sirf naam) */}
       <div
         ref={trackRef}
         onPointerDown={onPointerDown}
@@ -1148,30 +630,27 @@ function CategoriesView() {
         onPointerCancel={endDrag}
         onPointerLeave={endDrag}
         onDragStart={(e) => e.preventDefault()}
-        className={`flex gap-6 sm:gap-8 overflow-x-auto py-3 mb-10 select-none
-          [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
+        // mobile par carousel screen ke edge tak jaye (-mx-4 px-4)
+        className={`category-track  px-4 sm:mx-0 sm:px-0 w-auto max-w-full min-w-0 flex gap-2 sm:gap-3 overflow-x-auto overscroll-x-contain pb-2 mb-8 sm:mb-10 select-none
           ${isDragging ? "cursor-grabbing" : "cursor-grab snap-x snap-proximity"}`}
       >
         {categoriesList.map((cat) => {
-          const active = selectedCategory === cat.name;
+          const active = selectedCategory === cat;
           return (
             <button
-              key={cat.name}
+              key={cat}
               type="button"
-              onClick={() => handleCategoryClick(cat.name)}
+              onClick={() => handleCategoryClick(cat)}
               className="group flex shrink-0 snap-start flex-col items-center gap-2 focus:outline-none"
             >
-             
               <span
-                className={`bg-red-50 border border-red-100 px-4 py-2 rounded-3xl text-center   transition cursor-default  font-bold ${
+                className={`bg-red-50 border border-red-100 px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl text-center whitespace-nowrap transition cursor-pointer font-bold text-xs sm:text-sm ${
                   active
                     ? "text-[#cc0000]"
                     : "text-slate-900 group-hover:text-[#cc0000]"
                 }`}
               >
-                <p>
-                {cat.name}
-                </p>
+                <p>{cat}</p>
               </span>
             </button>
           );
@@ -1184,33 +663,35 @@ function CategoriesView() {
           Products dekhne ke liye koi category select karo.
         </p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
           {displayProducts.map((p) => {
             const productId = p.id || p._id;
             return (
               <div
                 key={productId || p.title}
-                className="bg-white border border-slate-200 rounded-3xl p-4 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between"
+                className="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-3 sm:p-4 hover:shadow-xl hover:-translate-y-1 transition duration-300 flex flex-col justify-between"
               >
                 <Link to={`/product/${productId || p.title}`}>
                   <img
                     src={p.image}
                     alt={p.title}
-                    className="h-40 w-full object-cover rounded-2xl mb-4 bg-slate-100"
+                    className="h-28 sm:h-40 w-full object-cover rounded-xl sm:rounded-2xl mb-3 sm:mb-4 bg-slate-100"
                   />
                   <span className="text-[10px] font-black uppercase bg-red-50 text-[#cc0000] px-2 py-0.5 rounded">
                     {p.category}
                   </span>
-                  <h3 className="font-black text-slate-900 mt-2">{p.title}</h3>
-                  <p className="text-xs text-slate-600 mt-1 font-medium">
+                  <h3 className="font-black text-slate-900 mt-2 text-sm sm:text-base line-clamp-2">
+                    {p.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-1 font-medium line-clamp-2">
                     {p.description}
                   </p>
                 </Link>
-                <div className="mt-4 flex justify-between items-center">
+                <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                   <span className="font-black text-slate-900">${p.price}</span>
                   <Link
                     to={`/product/${productId || p.title}`}
-                    className="bg-[#cc0000] hover:bg-[#990000] text-white text-xs font-bold px-4 py-2.5 rounded-full transition shadow"
+                    className="bg-[#cc0000] hover:bg-[#990000] text-white text-xs font-bold px-4 py-2 sm:py-2.5 rounded-full transition shadow text-center"
                   >
                     View Details
                   </Link>
@@ -1223,8 +704,6 @@ function CategoriesView() {
     </div>
   );
 }
-
-
 
 
 
@@ -1921,127 +1400,12 @@ function AdminDashboard() {
 
 
 
-// function LoginView() {
-//   const [isSignup, setIsSignup] = useState(false);
-//   const [form, setForm] = useState({ name: "", email: "", password: "" });
-//   const [message, setMessage] = useState("");
-
-//   const handleAuth = async (e) => {
-//     e.preventDefault();
-//     const endpoint = isSignup
-//       ? "http://localhost:5000/api/auth/signup"
-//       : "http://localhost:5000/api/auth/login";
-//     try {
-//       const res = await axios.post(endpoint, form);
-//       if (!isSignup && res.data.token) {
-//         localStorage.setItem("token", res.data.token);
-//         setMessage("Login successful! Redirecting...");
-//         window.location.href = "/";
-//       } else {
-//         setMessage("Registration successful! Please login.");
-//         setIsSignup(false);
-//       }
-//       setForm({ email: "", password: "" });
-//     } catch (err) {
-//       setMessage("Error: " + (err.response?.data?.error || err.message));
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-[#990000] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-//       <div className="max-w-lg w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
-//         <div className="p-8 sm:p-12 flex flex-col justify-center">
-//           <div className="mb-8">
-//             <span className="text-xs font-black tracking-widest text-[#cc0000] uppercase">
-//               Sapphire Store
-//             </span>
-//             <h2 className="text-3xl font-black text-slate-900 mt-1">
-//               {isSignup ? "Create Account" : "Welcome back"}
-//             </h2>
-//             <p className="text-slate-600 text-xs mt-1 font-medium">
-//               Please enter your details to proceed.
-//             </p>
-//           </div>
-
-//           {message && (
-//             <div className="mb-6 p-3 rounded-xl bg-slate-100 border border-slate-300 text-slate-800 text-xs text-center font-bold">
-//               {message}
-//             </div>
-//           )}
-
-//           <form onSubmit={handleAuth} className="space-y-4">
-//             {isSignup && (
-//               <div>
-//                 <label className="block text-xs font-black uppercase text-slate-700 mb-1">
-//                   Name
-//                 </label>
-//                 <input
-//                   type="text"
-//                   placeholder="John Doe"
-//                   value={form.name}
-//                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-//                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#cc0000]"
-//                   required
-//                 />
-//               </div>
-//             )}
-//             <div>
-//               <label className="block text-xs font-black uppercase text-slate-700 mb-1">
-//                 Email address
-//               </label>
-//               <input
-//                 type="email"
-//                 placeholder="user@gmail.com"
-//                 value={form.email}
-//                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-//                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#cc0000]"
-//                 required
-//               />
-//             </div>
-//             <div>
-//               <label className="block text-xs font-black uppercase text-slate-700 mb-1">
-//                 Password
-//               </label>
-//               <input
-//                 type="password"
-//                 placeholder="••••••••"
-//                 value={form.password}
-//                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-//                 className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#cc0000]"
-//                 required
-//               />
-//             </div>
-//             <button
-//               type="submit"
-//               className="w-full bg-[#cc0000] hover:bg-[#990000] text-white font-black py-3 rounded-xl text-sm transition shadow"
-//             >
-//               {isSignup ? "Sign Up" : "Sign in"}
-//             </button>
-
-//             <div className="mt-4 text-center">
-//               <button
-//                 type="button"
-//                 onClick={() => setIsSignup(!isSignup)}
-//                 className="text-xs font-black text-slate-700 hover:underline"
-//               >
-//                 {isSignup
-//                   ? "Already have an account? Sign in"
-//                   : "Don't have an account? Sign up"}
-//               </button>
-//             </div>
-//           </form>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 function MainAppContent() {
-  const {products} = useProducts();
-  // const [productList, setProductList] = useState(products || []);
+  
+ 
   
   const [cart, setCart] = useState([]);
-  // console.log("Products in MainAppContent:", productList); // Debugging line
+  
   const addToCart = (product) => {
     const existingIndex = cart.findIndex(
       (item) =>
@@ -2085,48 +1449,7 @@ function MainAppContent() {
 
   return (
     <div className="bg-white min-h-screen text-slate-900 flex flex-col justify-between">
-      <nav className="bg-[#990000] text-white px-6 md:px-8 h-20 flex justify-between items-center sticky top-0 z-50 border-b border-red-900 shadow-md">
-        <Link to="/" className="text-xl font-black tracking-tight text-white">
-          SAPPHIRE <span className="text-red-200">STORE</span>
-        </Link>
-        <div className="flex items-center space-x-6 text-sm font-bold">
-          <Link to="/" className="hover:text-red-200 transition">
-            Home
-          </Link>
-          <Link to="/products" className="hover:text-red-200 transition">
-            Products
-          </Link>
-          <Link to="/categories" className="hover:text-red-200 transition">
-            Categories
-          </Link>
-          <Link to="/orders" className="hover:text-red-200 transition relative">
-            Orders
-            {totalCartCount > 0 && (
-              <span className="absolute -top-2 -right-4 bg-white text-[#cc0000] text-[10px] font-black px-1.5 py-0.5 rounded-full">
-                {totalCartCount}
-              </span>
-            )}
-          </Link>
-          {getRoleFromToken() === "admin" && (
-            <Link to="/admin" className="hover:text-red-200 transition">
-              Dashboard
-            </Link>
-          )}
-          {/* <Link to="/admin" className="hover:text-red-200 transition">
-            Dashboard
-          </Link> */}
-
-          <button
-            onClick={() => {
-              localStorage.removeItem("token");
-              window.location.href = "/login";
-            }}
-            className="border border-white/40 hover:bg-white/10 text-white px-5 py-2 rounded-full font-black transition text-xs shadow-sm"
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
+      <Navbar totalCartCount={totalCartCount} />
 
       <Routes>
         <Route path="/" element={<StoreFront />} />
@@ -2173,10 +1496,8 @@ function MainAppContent() {
 
 function App() {
   const isLoggedIn = !!localStorage.getItem("token");
-  const { products, loading } = useProducts();
-  const apiUrl = import.meta.env.VITE_BACKENED_API_URL;
-  // console.log("Products from context:", products); // Debugging line
-  console.log("Url:", apiUrl); // Debugging line
+ 
+  
   if (!isLoggedIn) {
     return (
       <Router>
