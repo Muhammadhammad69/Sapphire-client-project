@@ -25,7 +25,7 @@ const Navbar = ({ totalCartCount }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const handleLogout = () => {
   localStorage.removeItem("token");
-  window.location.href = "/login";
+  window.location.href = "/";
 };
   return (
     // <nav className="bg-[#990000] text-white px-6 md:px-8 h-20 flex justify-between items-center sticky top-0 z-50 border-b border-red-900 shadow-md"> 
